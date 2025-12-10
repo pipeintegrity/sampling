@@ -266,8 +266,4 @@ st.sidebar.markdown("---")
 
 st.sidebar.markdown("Made by **Joel Anderson** Total Integrity Analytics")
 
-numpy==1.26.4
-matplotlib==3.8.4
-scipy==1.13.1
-plotly   # optional, if you ever want interactive plots
 
