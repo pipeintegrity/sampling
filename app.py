@@ -265,8 +265,9 @@ else:  # Tolerance Limits
 st.sidebar.markdown("---")
 
 st.sidebar.markdown("Made by **Joel Anderson** Total Integrity Analytics")
-streamlit==1.38.0
+
 numpy==1.26.4
 matplotlib==3.8.4
 scipy==1.13.1
 plotly   # optional, if you ever want interactive plots
+
