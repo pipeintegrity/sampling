@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joel Anderson">
+<meta name="dcterms.date" content="2026-01-01">
+
+<title>Sampling Plans to Meet Regulatory Requirements for Material Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="sampling_plan_files/libs/clipboard/clipboard.min.js"></script>
+<script src="sampling_plan_files/libs/quarto-html/quarto.js"></script>
+<script src="sampling_plan_files/libs/quarto-html/popper.min.js"></script>
+<script src="sampling_plan_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="sampling_plan_files/libs/quarto-html/anchor.min.js"></script>
+<link href="sampling_plan_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="sampling_plan_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="sampling_plan_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="sampling_plan_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="sampling_plan_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#sec-hypothesis-testing" id="toc-sec-hypothesis-testing" class="nav-link" data-scroll-target="#sec-hypothesis-testing">Hypothesis Testing</a>
+  <ul class="collapse">
+  <li><a href="#sampling-principles" id="toc-sampling-principles" class="nav-link" data-scroll-target="#sampling-principles">Sampling Principles</a></li>
+  </ul></li>
+  <li><a href="#sec-measurement-uncertainty" id="toc-sec-measurement-uncertainty" class="nav-link" data-scroll-target="#sec-measurement-uncertainty">Measurement Uncertainty</a>
+  <ul class="collapse">
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a></li>
+  <li><a href="#sec-comparing-two-samples" id="toc-sec-comparing-two-samples" class="nav-link" data-scroll-target="#sec-comparing-two-samples">Comparing Two Samples</a></li>
+  <li><a href="#sec-statistical-tests-and-errors" id="toc-sec-statistical-tests-and-errors" class="nav-link" data-scroll-target="#sec-statistical-tests-and-errors">Statistical Tests and Errors</a></li>
+  </ul></li>
+  <li><a href="#one-tail-vs.-two-tail-test" id="toc-one-tail-vs.-two-tail-test" class="nav-link" data-scroll-target="#one-tail-vs.-two-tail-test">One-Tail vs.&nbsp;Two-Tail Test</a>
+  <ul class="collapse">
+  <li><a href="#sec-sample-size" id="toc-sec-sample-size" class="nav-link" data-scroll-target="#sec-sample-size">Sample Size</a></li>
+  <li><a href="#sec-normal-distribution-sample" id="toc-sec-normal-distribution-sample" class="nav-link" data-scroll-target="#sec-normal-distribution-sample">Normal Distribution Sample Size Calculation</a></li>
+  <li><a href="#sec-expanded-sampling" id="toc-sec-expanded-sampling" class="nav-link" data-scroll-target="#sec-expanded-sampling">Expanded Sampling Requirements</a></li>
+  <li><a href="#statistically-valid-bases" id="toc-statistically-valid-bases" class="nav-link" data-scroll-target="#statistically-valid-bases">Statistically Valid Bases</a></li>
+  </ul></li>
+  <li><a href="#sec-alternate-sampling-plan" id="toc-sec-alternate-sampling-plan" class="nav-link" data-scroll-target="#sec-alternate-sampling-plan">Alternate Sampling Plan</a>
+  <ul class="collapse">
+  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem">Bayes’ Theorem</a>
+  <ul class="collapse">
+  <li><a href="#sec-nomenclature" id="toc-sec-nomenclature" class="nav-link" data-scroll-target="#sec-nomenclature">Nomenclature</a></li>
+  </ul></li>
+  <li><a href="#sequential-updating" id="toc-sequential-updating" class="nav-link" data-scroll-target="#sequential-updating">Sequential Updating</a></li>
+  </ul></li>
+  <li><a href="#sec-conclusion" id="toc-sec-conclusion" class="nav-link" data-scroll-target="#sec-conclusion">Conclusion</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#t-distribution-formula" id="toc-t-distribution-formula" class="nav-link" data-scroll-target="#t-distribution-formula">t-distribution formula</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sampling Plans to Meet Regulatory Requirements for Material Verification</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Joel Anderson <a href="mailto:janderson@ffs-integrity.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Total Integrity Analytics
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>The regulations published by PHMSA in October of 2019 requires non-destructive examination (NDE) to determine the material properties of pipelines that lack traceable, verifiable and complete (TVC) records. To meet this requirement, operators must conduct verification of pipeline material properties in accordance with 49 CFR 192.607. (Assuming the pipe is to continue in service.)</p>
+<p>In addition, section 192.607(e)(1) states that a population is a combination of material properties and attributes: Nominal Wall Thickness, grade, manufacturing process, pipe manufacturing dates and construction dates. The pipeline segments of the population do not need to be contiguous. If the operator chooses to follow the prescriptive requirements in 192.607(e)(2) it requires one excavation per mile for each population rounded up to the nearest whole number up to a maximum of 150 excavations if the population is more than 150 miles. If an operator chooses to use an alternate statistical sampling, 192.607(e)(5) allows the use of another method that has a statistically valid basis designed to achieve a 95% confidence level.</p>
+<p>Confidence level is a statement of the probability at which an estimated parameter, such as the sample mean, is also true for the population. A common example of this would in the reporting of survey results where a statement similar to; “45% are in support of a measure with a margin of error of 3%”. The margin of error is the confidence interval for a 95% confidence level. Meaning that if the whole population was surveyed, the true mean would be within 3% of the estimated mean 95% of the time.</p>
+<p>The goal of a sampling program is to sample enough to be able to make a defensible decision about the population without sampling too much. Too small of a sample increases the risk of making an erroneous decision about the population, sampling too much wastes time and resources, indirectly increasing risk. elsewhere by diverting resources unnecessarily. Differences will always exist between the measured value and the true value since perfect measurements are impossible. Errors of varying magnitude will exist due to random effects from any number of sources. The inevitable question arises is whether these observed differences between the sample and the hypothesized value are likely due to chance and have enough samples been completed to be able to tell the difference. If you are looking for a universal number that is applicable in all situations, you are not going to find it in this paper or anywhere else. Statements to the contrary are either misinformed or deliberately misstated. The appropriate sample size is interrelated with your acceptable risk. Changes to the acceptable risk will change the number of samples significantly. It’s easy to say that the risk of an erroneous decision should be as close to zero percent as possible but if each sample costs $100,000 there is significant motivation to consider the benefit of additional samples vs.&nbsp;the cost. But with some knowledge of sampling statistics, the risks though they can’t be eliminated, can be lowered to an acceptable level.</p>
+<p>This paper will discuss all the requirements to set up a sampling plan. Including how to determine if a sample is inconsistent with some reference value, determining sample size and comparing two samples against each other. In addition, alternate sampling plans to achieve the 95% confidence level will be covered and how this can be accomplished with far fewer than 150 excavations.</p>
+</section>
+<section id="sec-hypothesis-testing" class="level1">
+<h1>Hypothesis Testing</h1>
+<p>Most elementary statistics are introduced with the concept of an urn with a known number of balls itemized by color. Everything about the contents of the urn is known and the goal is to predict what kind of data it will produce. While drawing from an urn is a good analogy to introduce statistics, it is not representative of any problem of consequence. In almost any problem outside of contrived examples and casino games, neither the size nor the exact make-up of the population is known ahead of time. Rather than predicting what data will come out of drawing from the urn, the engineer has a much different problem, that is to reason about the likely contents of the “urn” based on their existing knowledge of the problem and a limited set of observations. Therefore any statistic should not be confused with the reality of nature. A statistic is a measure of our state of knowledge about the problem at that time since we are not simply given the contents of the “urn” nor in most situations there isn’t any way to measure the entire population to see if we are correct. Therefore, in any hypothesis test, the only two options are to either reject the hypothesis because the data is very unlikely if the hypothesis is true or fail to reject it if the data is consistent with the hypothesis. We can never accept the hypothesis, because that would require rejecting an infinite number of alternative hypotheses. For example if the hypothesis is that the mean value of the yield strength is 42 ksi, to accept that hypothesis would require having to prove that it’s not 42.1 or 42.01 and every other infinite number of arbitrary levels of precision. An hypothesis test is analogous to a criminal trial where the defendant is pronounced either guilty or not guilty, they are never pronounced innocent. We are looking to prove beyond a reasonable doubt, not beyond all doubt. Likewise in statistics even with the best plan and execution there is some inevitable probability of making an error in the decision. But from a regulatory standpoint we are not trying to prove that it’s YS is exactly some value only that it is very unlikely that its less than that and failing to reject is effectively accepting the premise. This is because the operating decisions going forward will be based on the acceptance as truth of the hypothesis even though there remains a small probability of being false.</p>
+<section id="sampling-principles" class="level2">
+<h2 class="anchored" data-anchor-id="sampling-principles">Sampling Principles</h2>
+<p>As an introduction to sampling, a few introductory sampling principles will be introduced to dispel some entrenched myths. A detailed discussion and proof of these is beyond the scope of the paper but these principles are presented for the benefit of background information.</p>
+<p><strong>Principle I:</strong> The size of the population (the “lot” in quality control terms) does not appreciably change the information obtained from the sample. Assuming the lot is much greater than the sample size by at least a factor of 10. This means that the sample will contain roughly the same defective percentage regardless of the lot size. This is demonstrated in <a href="#fig-lotsize" class="quarto-xref">Figure&nbsp;1</a> where 5,000 repeated samples of 10 are taken from two populations. One lot has a size of 100 and the second is 10,000. Both lots have a 10% defect rate. For each repeated sample, the total number of defective items is totaled. Then this is compared to the theoretical results of the binomial distribution which is based on an infinite size population. Both empirical results and the theoretical showed approximately the same outcome. This also shows that a sample will not always perfectly reflect the population. In all three cases the defect rate was fixed at 10% but the samples ranged from 0 to 60% defect rate with the average sample defect rate approximately equal to the population defect rate.</p>
+<p>This principle is often the least understood because of standards like ANSI/ASQ Standard Z1.4 contain sampling charts that require differing sample sizes depending on the size of the lot and further subdivided by “inspection levels”. The reason for the sample size to lot size dependency lies not in statistics but economics. As the lot size grows the economic benefit of larger samples is worth it to acquire more information about it. See Principle II.</p>
+<p><strong>Principle II:</strong> The information contained in a sample increases when the size of the sample increases, independent of the size of the lot. The larger the sample, the more faithful the sample will be to the population.</p>
+<p><strong>Principle III:</strong> The information contained in a sample does not depend on the <em>proportion</em> that the sample represents of the lot, only the overall size. If we sample 10% of two different lots with the same defect rate and where one lot is larger than the other, the larger lot will have a larger sample, and will more closely resemble the overall defect rate of the population even though both samples represent the same proportion of the lot.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-lotsize" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lotsize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-lotsize-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lotsize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Size of Lot Doesn’t Affect the Outcome
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-measurement-uncertainty" class="level1">
+<h1>Measurement Uncertainty</h1>
+<p>When discussing sampling, one of the prerequisites is to discuss measurement uncertainty. A measurement is the process of assigning a quantity to a physical property. Regardless of the precision of the process, there is some level of error. The term, “error” in this context does not imply a mistake but rather the deviation between the measured quantity and the (unknown) true value. For any physical property, there is only one true mean. But if repeated samples are taken, assuming the size of the population is much larger than the size of the sample, differing sample means would be calculated each time. Perfect measurements don’t exist, therefore just taking an average of the sample is an inadequate description of a physical property or most anything for that matter. Since 192.607(c)(1) requires performing measurements at 5 places in 2 circumferential quadrants of the pipe it is necessary and beneficial to use the measurements to calculate not just the mean value but also the standard deviation. With only 10 measurements, a single outlier can exert significant leverage on the average. In addition to measurement error, the steel itself is not perfectly homogeneous. A variation of at least 3 - 4 ksi in the measured yield strength (YS) around the circumference or end to end is common even when using destructive testing.</p>
+<p>As an example, assume 10 replicate measurements of the YS are taken with a mean of 40 ksi and a standard deviation of 3.5 ksi, on a pipe having an assumed specified minimum YS of 42 ksi. Without accounting for the uncertainty, one might conclude that that the YS is less than what was on record, which may not be correct decision. The way to account for the uncertainty in the mean is with the confidence interval.</p>
+<p><span id="eq-confidence"><span class="math display">\[
+CI = \mu\pm t\frac{s}{\sqrt{n}}
+\tag{1}\]</span></span></p>
+<p>where: <span class="math inline">\(\mu\)</span> = the average of the sample, s = the sample standard deviation, <em>n</em> = the number of measurements, <em>t</em> = t-value based on a probability of 0.975, and <span class="math inline">\(n-1\)</span> degrees of freedom (t = 2.26)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>The 95% confidence interval of the mean for this example, working in units of ksi, would be:</p>
+<p><span id="eq-exampleCI"><span class="math display">\[
+40\pm2.26\left(\frac{3.5}{\sqrt{10}}\right)= 40\pm2.50
+\tag{2}\]</span></span></p>
+<p>The confidence interval of the mean would extend from 37.5 to 42.5 ksi therefore a true yield strength of 42 ksi cannot be excluded based on the measurements and the YS of record is not rejected. This indicates that the test could then be counted as being successful for the purposes of verifying the material properties. This is why a measurement that is different should not be treated as inconsistent without considering the uncertainty in the measurement.</p>
+<section id="confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
+<p>A common misconception in the interpretation of the confidence interval is that a 95% confidence interval indicates that there is a 95% probability that the true value is within those bounds. The actual meaning of the confidence interval is that if somebody took repeated samples of a given size and calculated the confidence interval each time, 95% of the confidence intervals would include the true value. This is demonstrated in <a href="#fig-ci_samp" class="quarto-xref">Figure&nbsp;2</a> where 100 samples each with a size of 10 were taken from a population with a known mean of 42. For each sample, the mean and confidence interval is then calculated. Because this plot is based on simulated data, we know the mean is 42, yet exactly half of the sample means are less than the true mean, half are larger and 95 of the 100 confidence intervals include the true value. In practice someone is not going to take 100 different samples, they are probably going to take one. So the confidence interval is not a probability statement about the mean but a statement about the precision of our estimate of the mean. In practice, the true value is typically an unknown and the sample is being used to infer if it is reasonable that the sample could have came from a population with a hypothesized mean.</p>
+<p>The Central Limit Theorem guarantees that near identical results to these (proportion above and below mean and percentage of confidence intervals) will occur regardless of the distribution of the original data, even if it is highly skewed. This demonstrates why simply using the sample mean is a poor predictor of the population mean. If the sample mean is used by itself to decide if the true mean is above or below some value, you are guaranteed 50% of the time the decision will be wrong.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-ci_samp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ci_samp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-ci_samp-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ci_samp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Confidence Intervals
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-comparing-two-samples" class="level2">
+<h2 class="anchored" data-anchor-id="sec-comparing-two-samples">Comparing Two Samples</h2>
+<p>The previous example is a one-sample test. In the alternate scenario where two samples are being compared against each other, a similar process is employed. But instead of comparing a sample against an hypothesized value as in the one-sample test, the purpose is to compare one sample against the other to determine if they could have reasonably come from the same population. The goal is not to determine consistency with any specific value but rather if it is a reasonable hypothesis that the two samples could have came from a single population with a common mean. There are several different variations of two-sample t-tests but the relevant one to material verification would be an independent two-sample t-test. In this circumstance, it is assumed that each sample has no influence on the other (independence), the variances are equal and both samples are the same size.</p>
+<p>The formula for a independent two-sample t-test is as follows:</p>
+<p><span id="eq-ttest"><span class="math display">\[
+t = \frac{\bar{X_1}- \bar{X_2}}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}
+\tag{3}\]</span></span></p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;Where: \\
+&amp;s_p =Pooled\,standard\,deviation =\sqrt{\frac{s_{X_1}^2 + s_{X_2}^2}{2}}\\
+&amp;\bar{X}_{1,2}= Mean\,each\,sample\\
+&amp;n_{1,2} = Size\, of\, each\, sample\\
+&amp;s_{X_{1,2}} = Standard\,deviation\,of\,each\,sample
+\end{align*}
+\]</span></p>
+<p>In this case, the null hypothesis (the Null) is that the means of the two samples are equal. The Null is always based on the assumption that the hypothesis is true and it remains so until the data shows it to be very improbable. To accomplish this, the value arrived at in <a href="#eq-ttest" class="quarto-xref">Equation&nbsp;3</a> is the t-statistic which is compared against the critical t-value at a probability of <span class="math inline">\(1-\alpha/2\)</span> with <span class="math inline">\(\nu = n_1 + n_2-2\)</span> degrees of freedom. For an <span class="math inline">\(\alpha = 0.05\)</span> with 10 samples in each group, <span class="math inline">\(\nu = 18\)</span>, the critical t-value at a probability of <span class="math inline">\(1-\alpha/2=0.975\)</span> is 2.10. Then if <span class="math inline">\(|t| &gt; t_{1-\alpha/2, \nu}\)</span> then the Null (<span class="math inline">\(H_0\)</span>) is rejected in favor of the alternative hypothesis <span class="math inline">\(H_A\)</span>. The critical t-value can be calculated from the t-distribution shown in <a href="#eq-tpdf" class="quarto-xref">Equation&nbsp;10</a> (see Appendix) or more commonly looked up in a table or calculated with built-in formulas in any spreadsheet<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. This test determines if it is plausible based on the variation in the samples that the mean is greater <em>or</em> less than the the other in what is known as a two-sided test. This process is an example of a Null Hypothesis Statistical Test (NHST).</p>
+</section>
+<section id="sec-statistical-tests-and-errors" class="level2">
+<h2 class="anchored" data-anchor-id="sec-statistical-tests-and-errors">Statistical Tests and Errors</h2>
+<p>In the previous discussion, the sample size was given. But when embarking on a sampling program the first question is: “how large does the sample need to be?” To answer that question, a discussion of statistical errors is necessary. Any NHST starts with the assumption that there is no difference between groups or between a sample and a reference value. In these tests, there are two types of errors possible. They go by the creative names of Type 1 (symbolized with the Greek letter <span class="math inline">\(\alpha\)</span>) and Type 2 (symbolized with <span class="math inline">\(\beta\)</span>) errors. But the meanings of the two are often misunderstood when setting up a sampling program and interpreting the results. To help in the comprehension of the implications of these, the two types of errors will be discussed, what they mean and how they are used as part of planning a testing program.</p>
+<p>An error of the first type, also known as a Type 1 error, is rejecting the Null when it is really true (false negative). With very few exceptions, the true mean is an unknown value but it is possible to calculate the likelihood of falsely rejecting the Null. An error of the second type, a Type 2 error, is failing to reject the Null when it is false (i.e.&nbsp;you didn’t reject the Null when you should have, a false positive). The plot in <a href="#fig-type1and2" class="quarto-xref">Figure&nbsp;3</a> shows graphically Type 1 and 2 errors (note that sometimes Type 1 and 2 are designated by their Roman numerals I &amp; II). Where <span class="math inline">\(H_0\)</span> is the distribution based on the null hypothesis with <span class="math inline">\(H_A\)</span> being the alternate hypothesis distribution. The darker shaded region is the error bounds for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> respectively. The boundary between the darker and lighter shaded areas would be the threshold to reject or not reject the Null. If it was rejected at that point, the potential Type 1 error would be the dark blue area and the Type 2 is the dark orange area under the curve. These errors are because even though at the decision threshold the Null is very unlikely it is still possibly true since the distribution continues on. So there is still a small probability that the Null or the alternative hypothesis is true.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-type1and2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-type1and2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-type1and2-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-type1and2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Type 1 and 2 errors
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It is evident from <a href="#fig-type1and2" class="quarto-xref">Figure&nbsp;3</a> that Type 1 and 2 errors are interrelated. Minimizing the Type 1 error by setting the threshold for rejection higher (i.e.&nbsp;a lower <span class="math inline">\(\alpha\)</span>), increases the likelihood of a Type 2 for a given sample size. So this begs the question of which error is worse. The answer is, as in most of statistics, it depends. Typically, the Type 1 error is set at 0.05 in most tests because it is usually, more consequential. For example if a new drug was being tested, the Null would be that there is no difference in outcome versus the placebo then a Type 1 error would be determining that the new drug has an effect on a disease when it really doesn’t and the Type 2 error would be rejecting that the drug had an effect when it did. The consequences of the Type 1 far outweigh the Type 2 in that scenario. But the 0.05 is strictly a convention or typical value, not an absolute law chiseled in stone. If a criminal trial were a statistical test, the Null would be that the defendant is innocent (innocent until proven guilty) and the desirable outcome would be that the likelihood of judging an innocent defendant guilty (Type 1 error) to be as small as possible even at the expense of increasing the likelihood of a guilty defendant going free. Setting a low <span class="math inline">\(\alpha\)</span> value means that you are requiring a high level of evidence before the Null is rejected.</p>
+<p>In some circumstances a Type 2 error has a higher consequence and it is appropriate to set a lower evidence threshold to reject the Null by setting a lower <span class="math inline">\(\beta\)</span> value. The ability of a test to correctly reject the Null is known as the power and is equal to <span class="math inline">\(1-\beta\)</span>. In this alternate scenario (ignoring any code requirements for the sake of demonstration) suppose there are two lots of pipe in a pipe yard, one with documentation and another without and you suspect that the yield strength is the same for the two lots, so a test program is set up to test them and compare the results. If it is judged that the Null (i.e.&nbsp;that they are the same yield strength) can’t be rejected, then the undocumented lot will be used along with the documented one for a project. In this case, the Type 1 error would be rejecting that they are the same when they really are and consequently not using the undocumented pipe, a cost consequence but not a safety one. But a Type 2 error would imply that the undocumented lot gets used in the project under the assumption that the material properties are the same when they are not, a potential safety consequence. In this case, the consequences of a Type 2 is much greater than a Type 1 therefore a higher power test would be desirable, creating a lower threshold of evidence before you reject the Null. There are two ways to increase the power of a test, the first is to lower the acceptable Type 2 error, which in turn raises the Type I error, and the other is to increase the sample size. See <a href="#sec-sample-size" class="quarto-xref">Section&nbsp;4.1</a> for a more detail explanation. In this scenario, it was decided a higher Type 1 error was acceptable for the benefit of higher likelihood of properly rejecting the Null. If a higher Type 1 is not an acceptable risk then the alternative is to increase the sample size to get the required power.</p>
+</section>
+</section>
+<section id="one-tail-vs.-two-tail-test" class="level1">
+<h1>One-Tail vs.&nbsp;Two-Tail Test</h1>
+<p>After the discussion of error types it is necessary to cover the types of tests and how they are used. The t-test which was introduced earlier is a statistical test that compares the means of two groups or one group relative to an hypothesized value. A one-tailed t-test is used when the researcher is interested in only one direction of difference between the two groups. For example, if we want to know whether the mean of Group A is significantly greater (or less than) than Group B, we would use a one-tailed t-test. A two-tailed t-test, on the other hand, is used when the researcher is interested in any difference between the two groups in either direction. For example, if we want to know whether the mean of Group A is significantly different from Group B (either greater or less than), we would use a two-tailed t-test.</p>
+<p>In a one-tailed test, the entire alpha level is in one tail, while in a two-tailed test, the alpha level is split in half between the two tails. One-tailed tests detect an effect in one specific direction, while two-tailed tests consider effects in both directions. One-tailed tests require prior knowledge about the direction of the effect, whereas two-tailed tests do not. If the researcher is using a one-tailed test then the critical t-value as was discussed in the section on t-tests for rejecting the Null is based on <span class="math inline">\(1-\alpha\)</span> vs.&nbsp;<span class="math inline">\(1-\alpha/2\)</span> for the two-sided. The difference in the two tests are shown in <a href="#fig-onetail_twotail" class="quarto-xref">Figure&nbsp;4</a>, plots A &amp; B are examples of one-tail tests for left and right tails respectively and C shows a two-tail test.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-onetail_twotail" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-onetail_twotail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-onetail_twotail-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-onetail_twotail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: One-Tail vs.&nbsp;Two-Tail Test
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="sec-sample-size" class="level2">
+<h2 class="anchored" data-anchor-id="sec-sample-size">Sample Size</h2>
+<p>If the first question in a sampling program is , “how do I know?”, the second question is instinctively, “how much is enough?”. The answer to this is dependent on the answer to several other questions. The first one is how big is the effect that the researcher wants to detect. The effect size can be thought of as how much of a difference between the sample and the hypothesized value is a practical concern. The other question that must be answered is what is the acceptable error rate? This ultimately involves defining your acceptable risk, it is impossible to reduce the potential error to zero outside of sampling the entire population, so the person designing the sampling plan must decide what is the acceptable probability of an error relative to the risks involved with an incorrect decision.</p>
+<p>Since there is always going to be some difference, the researcher needs to decide prior to sampling how large the difference can be before it becomes a concern. If the testing program is trying to differentiate between a mean of 10 from 10.5, that is much smaller effect size and requires a much larger sample than trying to differentiate 10 from 15. The size of your sample is also dependent on the required power of the test , which is also determined by the researcher when designing the sampling plan. Recall that the power of a test is simply <span class="math inline">\(1 - \beta\)</span> and that <span class="math inline">\(\beta\)</span> is the Type 2 error rate as discussed in the section on error types. The larger the sample size, the larger the power of the test (i.e.&nbsp;the smaller the Type 2 error). The power can be calculated after the data is collected but normally the person planning the sampling program will specify the required test power and significance which will in turn determine the size of the sample required. As a general rule, (again, not an absolute) it is desirable for a test to have enough samples to achieve at least a power of 80% which corresponds to a 20% Type 2 error. But as was discussed previously, the size of the acceptable <span class="math inline">\(\beta\)</span> is dependent on the relative consequences of Type 2 vs Type 1 error. The reason the increased sample size creates increased power of the test is that as the sample size grows, the variability in the mean shrinks, making it easier to differentiate between the two hypotheses. Note that the uncertainty in the mean is not linear with sample size, it’s inversely proportional to, <span class="math inline">\(\sqrt{n}\)</span> therefore, if you want shrink your uncertainty by half, it requires a sample four time as large. The power versus sample size for various effect sizes and the number of samples required to reach 80% power is shown in <a href="#fig-sample_size_plots" class="quarto-xref">Figure&nbsp;5</a>. The effect size (d) is calculated by taking the difference of the two means and dividing by the pooled standard deviation (pooled standard deviation calculation is shown in <a href="#eq-ttest" class="quarto-xref">Equation&nbsp;3</a>) . The three effect sizes shown in <a href="#fig-sample_size_plots" class="quarto-xref">Figure&nbsp;5</a> correspond to what is roughly categorized as the thresholds for a small, medium and large effect sizes respectively. These are the general convention for categorization of the effect size. The necessary effect size is dependent on the application and the preferences of the decision maker. These example plots are for a two-sample, two-sided t-test. This demonstrates the influence effect size has on required sample size. A “large” effect can be detected with as little as 26 samples where a “small” effect requires over 15 times that amount at 394. In summary, the required sample size is dependent on the size of effect the researcher wants to detect and the acceptable Type 1 and 2 error rate.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-sample_size_plots" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sample_size_plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-sample_size_plots-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample_size_plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Sample Size vs.&nbsp;Power for Two Sample t-test
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It is evident from <a href="#fig-sample_size_plots" class="quarto-xref">Figure&nbsp;5</a> that the effect size makes a significant difference on the size of the sample required to reach a power of 80%. While more data points is always better, the cost of collecting additional data is a real world concern and should be weighed against the benefit of further reducing the likelihood of a Type 2 error relative to the current sample size.</p>
+<p>How the power is calculated is dependent on type of data that is being analyzed and all circumstances won’t be covered in this paper, there are several online resources and texts that discuss it in detail. But there are also numerous statistical power calculators online that can be used. The example of a more common case involving two normal distributions similar to <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span> shown in <a href="#fig-type1and2" class="quarto-xref">Figure&nbsp;3</a> will be demonstrated here.</p>
+</section>
+<section id="sec-normal-distribution-sample" class="level2">
+<h2 class="anchored" data-anchor-id="sec-normal-distribution-sample">Normal Distribution Sample Size Calculation</h2>
+<p>In this example, the Null is that the mean value of the YS is 45 ksi and the goal is to be able to detect a difference of more than <span class="math inline">\(\pm\)</span> 3 ksi at a 95% confidence level and a power of 80%. Therefore the researcher wants to be able to reject the Null when the estimated mean of the population is less than 42 or greater than 48 ksi. Based on industry data, it is known that the typical standard deviation for the YS is 6 ksi.</p>
+<p>Since the comparison is one population against a reference value this is a one-sample test. As a simplification to the problem, the normal distribution will be used rather than the t-distribution. The t-distribution is required when the standard deviation is unknown or can’t be estimated. But recall that the critical t-value is dependent on the sample size which we are trying to estimate creating a circular dependency, a “Chicken and Egg” problem where you need the sample size to calculate the t-value but you don’t know the sample size you need. To calculate the sample size using a t-test requires an iterative process of guessing a sample size and calculating the power and adjusting the sample size based on the calculated power. For even moderately large samples (generally n &gt; 30) the difference between the t and normal distribution is small and diminishes as the sample size gets larger. Therefore, since the standard deviation can be estimated, we will use the normal distribution.</p>
+<p>The first step is to calculate the critical z-values at <span class="math inline">\(1-\alpha/2\)</span> and <span class="math inline">\(1-\beta\)</span> which in this case would be 1.96 and 0.84 respectively. The critical z-value is the value for a given probability on the standard normal distribution. For example the cumulative probability for 1.96 = 0.975.</p>
+<p>Then the minimum sample size for a two-sided test is as follows. For simplicity, the formula is presented here without derivation. If the reader is interested in how this formula is arrived at, see <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc222.htm">NIST e-Handbook</a> for more background.</p>
+<p><span id="eq-normal_n"><span class="math display">\[
+N = \left(Z_{1-\alpha/2} + Z_{1-\beta}\right)^2\left(\frac{\sigma}{\delta}\right)^2
+\tag{4}\]</span></span></p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;Where:\\
+&amp;\sigma = Standard\,Deviation\,(6\,ksi)\\
+&amp;\delta = Minimum\,difference\,between\,H_0\,and\,H_A\,that\, you\,want\,\,to\,detect\,(3\,ksi)\\
+&amp;Z = Critical\,Z\,value\,for\,normal\,distribution\\
+&amp;\alpha = Type\,1\,error\\
+&amp;\beta = Type\,2\, error
+\end{align*}
+\]</span></p>
+<p>Putting this all together: <span class="math display">\[
+N = (1.96 + 0.84)^2\times(6/3)^2 \approx 31.4
+\]</span>Since a fractional sample has no physical meaning, the number is rounded up to the next whole number of 32. If the goal is only a one-sided test the same formula is used with the exception of <span class="math inline">\(Z_{1-\alpha/2}\)</span> is replaced with <span class="math inline">\(Z_{1-\alpha}\)</span>.</p>
+</section>
+<section id="sec-expanded-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="sec-expanded-sampling">Expanded Sampling Requirements</h2>
+<p>As part of this testing requirement under 192.607(e)(4), if a sample is found to be inconsistent with available information or existing expectations or assumed properties used for operations and maintenance in the past, <em>“the operator must establish an expanded sampling program. The expanded sampling program must use valid statistical bases designed to achieve at least a 95% confidence level that material properties used in the operation and maintenance of the pipeline are valid.”</em> The regulation does not define what is a “statistical valid bases” or how to get to a 95% confidence level. This section will discuss the meaning of confidence level and how it applies to this regulation.</p>
+<p>Confidence level is not a probability about the hypothesis being true but rather a statement of how likely we are to make the correct decision based on the testing. In essence, PHMSA is asking the operator to prove to a 95% certainty that the inconsistent material does not exist in the rest of the population. It is a common saying that you can’t prove a negative, which is true. However, if an estimate is made (or assumed) about the population it can be shown what the probability of observing certain results are if the estimate was true. Therefore, it can be shown that something is hghly improbable based on results, but the negative still can’t be proven absolutely.</p>
+</section>
+<section id="statistically-valid-bases" class="level2">
+<h2 class="anchored" data-anchor-id="statistically-valid-bases">Statistically Valid Bases</h2>
+<p>If an inconsistent result is found (however “inconsistent” is defined by the operator, it is not defined in the regulation) the operator must implement an expanded sampling plan per 192.607(e)(4). When excavations are performed to verify materials each verification dig can be thought of as a pass/fail test for whether inconsistent results are found or not. This type of sample where the criterion is a binary choice, is known as a Bernoulli trial and is modeled with the binomial distribution. This distribution will determine a probability of <em>k</em> successes in <em>n</em> independent trials if the probability of success per trial is <em>p</em>. A “success” is whatever is being counted. A “success” is not necessarily a positive outcome. In the expanded sampling context, a “success” would be finding an inconsistent material property in an verification dig. The binomial equation is shown as:</p>
+<p><span id="eq-binom"><span class="math display">\[
+\binom{n}{k} p^{k} (1 - p)^{n - k}
+\tag{5}\]</span></span></p>
+<p>Where the <span class="math inline">\(\binom{n}{k}\)</span> is what is called the binomial coefficient which calculates the number of ways <em>k</em> successes in <em>n</em> trials can be distributed. In an expanded sampling program, the desired number of successes (inconsistent results) is zero but the number of samples required to achieve a 95% certainty is not known a priori. It would be straight forward to show the probability of observing zero successes in a number of trials, but this doesn’t show how likely it would be to find something if additional samples were taken. For instance, the probability of zero successes in one trial is 95% if the inconsistent material is 5% of the population. But even the casual observer would realize that doesn’t prove anything, and the result of that one trial is simply be the result of random chance and it doesn’t demonstrate anything about the population. That’s equivalent to saying 95% of all cars are white because the first one you saw was white. To show the probability of <strong>not</strong> finding something in future trials it is necessary to calculate the opposite, the probability of finding one or more successes in <em>n</em> trials as shown in <a href="#fig-cumprob" class="quarto-xref">Figure&nbsp;6</a>. Since the total probability of all possible outcomes has to sum to one for a given sample size, the probability of finding one or more is, one minus the probability of finding zero.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-cumprob" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cumprob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-cumprob-1.png" class="img-fluid figure-img" width="2100">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cumprob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Cumulative Probability
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>To facilitate this calculation, it is necessary to estimate or assume the percent of the population that might be represented by the inconsistent sample. This percentage becomes the probability of success in <a href="#eq-binom" class="quarto-xref">Equation&nbsp;5</a> and the number of successes is set to zero. Then the sample size is iterated until one minus the probability is greater or equal to 95%<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. The reason for this is that the proportion of the population affects the probability of finding it in future samples. The larger the proportion it represents, the easier it would be to find in fewer trials and likewise, the smaller the proportion, the more trials it would take to find it even once. What <a href="#fig-cumprob" class="quarto-xref">Figure&nbsp;6</a> illustrates is that if no inconsistent samples are found by the time the probability reaches 95%, then the likelihood of finding additional ones in future digs is 5% or less based on estimated population proportion. For example, if it is hypothesized that the proportion of the population that is inconsistent is 5% then 59 samples would be required to get to a 95% probability of observing one or more of them. If after 59 examinations, none are observed, then it can be concluded that there is a 95% probability that the inconsistent material is 5% or less of the overall population. If an operator wanted to demonstrate that the population of inconsistent material was a smaller percentage, continued sampling would be required. In <a href="#fig-cumprob" class="quarto-xref">Figure&nbsp;6</a> the line for 3% of the population (bottom curve) doesn’t reach 95% even after 75 trials. To demonstrate the proportion is 3% or less would take almost 100 samples before reaching 95% probability.</p>
+</section>
+</section>
+<section id="sec-alternate-sampling-plan" class="level1">
+<h1>Alternate Sampling Plan</h1>
+<p>Section 192.607(e)(2) requires one excavation per mile for each population rounded up to the nearest whole number up to a maximum of 150 excavations if the population is more than 150 miles. If an operator chooses to use an alternate statistical sampling, 192.607(e)(5) allows the use of another method that has a statistically valid basis designed to achieve a 95% confidence level.</p>
+<p>The method presented here will provide a robust, defensible method to update the beliefs about the material property such as yield strength based on new information provided by sequential NDE testing. With the application of statistics, specifically Bayes’ Theorem, it can be shown that a very high level of confidence can be achieved with a relatively small number of tests. This section will discuss how to verfy something like yield strength with far fewer tests than is currently required under 192.607(e)(2).</p>
+<section id="bayes-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="bayes-theorem">Bayes’ Theorem</h2>
+<p>Intuitively, people know that as they acquire more samples that agree with their hypothesis, the probability of it being true should increase as well and it shouldn’t take 150 samples. That intuition is correct and the way to show this increase in belief is through Bayes’ Theorem.</p>
+<p>The goal of an alternate sampling program is to demonstrate the the probability of an hypothesis being true after observing some data. The optimum tool to accomplish this goal is Bayes’ Theorem. This was originally referred to as the inverse probability problem. In traditional frequentist statistics, the hypothesis is chosen and a goodness of fit of the data is judged. In Bayesian statistics, the data is given and the likelihood of the hypothesis is judged by how well it fits the data. Frequentist methods require a much larger samples because the user has to effectively pretend that they don’t have any prior knowledge of the likelihood of the hypothesis being true and thus relies on the long-running average frequency of large samples. Whereas Bayes’ Theorem works well when there is sparse data but prior information is available. The key aspect of Bayes’ Theorem is the ease with which beliefs can be updated based on new data. The benefit of this methodology is that it allows the incorporation of prior knowledge of the problem to shorten the. Bayesian statistics starts with a prior distribution, referred to as simply “the prior”, and is shifted as new information is acquired. The prior can be thought of as the starting point that is conditioned (updated) in proportion to the weight of new evidence.</p>
+<section id="sec-nomenclature" class="level3">
+<h3 class="anchored" data-anchor-id="sec-nomenclature">Nomenclature</h3>
+<p>In the following example when the notation of P followed by parentheses such as P(<em>x</em>) this represents the probability of the independent event happening, the probability of observing <em>x</em> in this case. When there are two variables separated by a vertical bar such as P(H|<em>x</em>) this is a conditional probability. In this example it would be the probability of the hypothesis, H given that <em>x</em> (the data) has been observed. It is read as the probability of H given <em>x</em>.</p>
+<p>The most basic form of Bayes Theorem is represented by the following the equation.</p>
+<p><span id="eq-bayes"><span class="math display">\[
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\tag{6}\]</span></span></p>
+<p>There are two main components to Bayes’ Theorem, the hypothesis (the criterion of interest) and the evidence (data). When there is only a binary condition being considered (e.g., true/false, sick/not sick) Bayes’ Theorem can be written conceptually as:</p>
+<p><span id="eq-bayes_phe"><span class="math display">\[
+P(H|E)=\frac{P(E|H)P(H)}{P(E)}=\frac{P(E|H)P(H)}{P(E|H)P(H)+P(E|H')P(H')}
+\tag{7}\]</span></span></p>
+<p>Where:</p>
+<p>P(H|E) = Probability of hypothesis is true given the evidence (e.g.&nbsp;probability of disease given a positive test)</p>
+<p>P(H) = Probability that hypothesis is true overall (e.g.&nbsp;percentage of population that actually have the disease)</p>
+<p>P(E) = Probability of observing the evidence if the hypothesis is true. In the case of disease diagnosis, it would be the P(positive test if disease is true)+P(positive test if no disease), i.e.&nbsp;True positive rate + False positive rate</p>
+<p>P(E|H) = Conditional probability of the observing the evidence if the hypothesis is true. (e.g.&nbsp;probability of a positive test if the disease is present)</p>
+<p>P(E|H’) = Conditional probability of observing the evidence if the hypothesis is false (e.g.&nbsp;probability of positive test if the disease is not present)</p>
+<p>P(H’) = Probability the hypothesis is false (e.g.&nbsp;probability the disease is not present)</p>
+<p>In the above construct, H’ represents the hypothesis being false.</p>
+</section>
+</section>
+<section id="sequential-updating" class="level2">
+<h2 class="anchored" data-anchor-id="sequential-updating">Sequential Updating</h2>
+<p>The method for sequential updating of a Bayesian inference starts with the prior probability (prior) of the event happening and a probability of the test correctly identifying the value of interest. Using this prior information and known test accuracy an updated probability is calculated after each round of testing. Then after each test the updated posterior becomes the prior for the next test. This is illustrated with the following example. The prior is simply a statement of the strength user’s belief that the hypothesis is true based on what is known a priori about the pipeline. This can be based on design standards and operating pressure. It’s not intended to be a long-running frequency but rather how confident the user is in the hypothesis based on any prior information before seeing the data.</p>
+<p>The average person uses prior probability all the time without consciously thinking about it. If someone makes an extraordinary claim about something, you are skeptical. Why? Because you placed such a small prior probability on it being true based on your experience and knowledge. This is congruent with Carl Sagan’s famous quote, “Extraordinary claims require extraordinary evidence”. Even if you were to learn that the person making the claim is truthful 90% of the time you would still remain unconvinced. This is because even the 90% rate of truthfulness isn’t enough to overcome the very small prior you placed on the claim. You didn’t consult a database of such claims to develop the prior, you knew from general knowledge and prior experience that the probability of truthfulness of that claim was very low. Your prior is just the starting point, as data is accumulated it will move the updated probability either toward or away from the prior.</p>
+<p>In this example, nondestructive testing is used to determine an unknown yield strength (YS). It is known from qualification testing that the tool will produce results that are either correct or conservative 60% of the time. Based on prior knowledge of the operating pressure and construction practices in the time frame of its installation it is believed that the true YS is 42 ksi or greater. But given that the information about the YS is not documented, the initial belief of that is limited to a skeptical 10%. If the information was more reliable, the decision maker might start at 20 or 30% depending on the level of confidence in the information they have. The initial belief level is somewhat arbitrary but it should be dependent on the amount and quality of the prior information that is available before testing.</p>
+<p>Assuming the first test is successful (YS <span class="math inline">\(\geq\)</span> 42), the probability of being YS <span class="math inline">\(\geq\)</span> 42 ksi (<span class="math inline">\(YS_{42}\)</span>) is updated according to <a href="#eq-bayes" class="quarto-xref">Equation&nbsp;6</a> as follows.</p>
+<p><span id="eq-examp1"><span class="math display">\[
+P(YS_{42}) = \frac{(0.10)(0.60)}{(0.10)(0.60)+(1-0.10)(1-0.60)}=14.3\%
+\tag{8}\]</span></span></p>
+<p>The 14.3% then becomes the prior for the next test. If the second test is successful then the updated probability becomes</p>
+<p><span id="eq-examp2"><span class="math display">\[
+P(YS_{42}) = \frac{(0.143)(0.60)}{(0.143)(0.60)+(1-0.143)(1-0.60)}=20.0\%
+\tag{9}\]</span></span></p>
+<p>Then each test is updated in the same way until the probability of success meets or exceeds 95% as shown in <a href="#fig-update" class="quarto-xref">Figure&nbsp;7</a>. In this example,this is achieved after 13 samples. This example assumes that the population is homogeneous and any variability is due to the uncertainty in the measurement. The actual number of confirming samples required will depend on the prior probability used and the accuracy of the NDE method used.</p>
+<p>One caveat of this calculation is that it assumes that the population is homogeneous and you are only attempting to infer if it meets some threshold value. We are not concerned about what the true value is, only the binary hypothesis that it meets a minimum threshold value or not.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-update" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="sampling_plan_files/figure-html/fig-update-1.png" class="img-fluid figure-img" width="1950">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Updated Beliefs
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>The methodologies presented in this paper provide a robust and defensible framework for meeting the material verification requirements of 49 CFR 192.607 by transitioning from prescriptive sampling to statistically valid alternate plans, operators can achieve the required 95% confidence level with significantly greater efficiency.</p>
+<p>Successful implementation relies on three key pillars:</p>
+<ul>
+<li><p><strong>Risk-Based Decision Making</strong>: The selection of error thresholds must be driven by the specific consequences of <strong>Type 1</strong> versus <strong>Type 2</strong> errors. Because these risks are intertwined, a sampling plan must explicitly define which error is of greater concern and set thresholds accordingly.</p></li>
+<li><p><strong>Measurement Integrity</strong>: Operators must account for both measurement uncertainty and the inherent non-homogeneity of steel. Utilizing Confidence Intervals rather than simple sample means ensures that a single outlier does not trigger an unnecessary and costly “expanded sampling” program.</p></li>
+<li><p><strong>Optimization via Bayesian Logic</strong>: For populations lacking TVC records, the application of Bayes’ Theorem offers a statistically sound path to verify properties like yield strength using a fraction of the 150 excavations typically required. This approach allows for the incorporation of prior knowledge, such as vintage-specific manufacturing standards, to reach a 95% belief level through sequential NDE testing.</p></li>
+</ul>
+<p>Ultimately, these principles empower the end-user to define a sampling program that is not only regulatory compliant but also economically sustainable. By grounding the plan in first principles—from Bernoulli trials for expanded sampling to t-distributions for mean comparisons—operators can confidently explain their process to regulators and stakeholders alike.</p>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<section id="t-distribution-formula" class="level2">
+<h2 class="anchored" data-anchor-id="t-distribution-formula">t-distribution formula</h2>
+<p>The probability density function (pdf) of the t-distribution with <span class="math inline">\(\nu\)</span> degrees of freedom is given by:</p>
+<p><span id="eq-tpdf"><span class="math display">\[
+f(t|\nu) = \frac{\Gamma(\frac{\nu+1}{2})}{\sqrt{\nu \pi}\Gamma(\frac{\nu}{2})}\left(1+\frac{t^2}{\nu}\right)^{-\frac{\nu+1}{2}}
+\tag{10}\]</span></span></p>
+<p>Where <span class="math inline">\(\Gamma\)</span> is the gamma function:<br>
+<span id="eq-gamma"><span class="math display">\[
+\Gamma(z) = \int_{0}^{\infty} x^{z-1} e^{-x} dx
+\tag{11}\]</span></span></p>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>The 95% confidence interval refers to the middle 95% of the distribution from 2.5% to 97.5% and the degrees of freedom is the number of samples minus one, (n - 1). The t-distribution is used in statistics to estimate the population parameters for small sample sizes. The formula for the t-distribution is quite complicated, it is shown in the appendix and the t-value is almost never calculated manually, it is either looked up in statistical tables or more commonly calculated using built-in formulas in a spreadsheet or statistical software.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In Excel, the formula would be <em>T.INV(0.975,18)</em>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The binomial distribution is built into Excel, using that to do the iteration will make this process easier and repeatable.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

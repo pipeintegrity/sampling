@@ -1,0 +1,3 @@
+Decision,Real World: H0? is True,Real World: H0? is False
+Reject H0?,Type I Error (False Positive),Correct Decision
+Fail to Reject H0?,Correct Decision,Type II Error (False Negative)
