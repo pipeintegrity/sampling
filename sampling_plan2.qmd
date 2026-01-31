@@ -12,6 +12,8 @@ format:
 editor: visual
 date: today
 date-format: long
+project:
+  output-dir: C:/Temp/quarto-output/sampling
 execute:
   echo: false
   warning: false
@@ -34,7 +36,9 @@ This document introduces statistically valid sampling methods that achieve the r
 
 By combining Frequentist and Bayesian methods, operators can design sampling plans that are regulatory compliant, statistically defensible, and economically sustainable. These strategies enable operators to demonstrate material integrity with confidence while minimizing cost and operational disruption.
 
-# Background
+# Regulatory Requirements and Context
+
+This section summarizes the key requirements in 49 CFR 192.607 that drive sampling design. The sections that follow move from statistical foundations (why sample sizes behave the way they do) to practical methods (how to set decision thresholds, calculate sample sizes, and design expanded/alternate sampling programs).
 
 ```{r}
 #| label: setup
@@ -140,7 +144,7 @@ Perfect measurements are impossible, so differences between measured and true va
 
 There is no universal number that is applicable to all situations. The necessary sample size is interrelated with the acceptable risk. Changes to the acceptable risk will change the number of samples significantly. With some knowledge of sampling statistics, the risks can be lowered to an acceptable level. This is the fundamental premise of statistical sampling: the process of selecting a representative subset from a larger population to estimate the properties of the whole.
 
-# Sampling Principles
+# Statistical Foundations
 
 The goals of sampling fall into two general categories. The first is to compare a sample to some reference value or two samples against each other. In this type of sampling the measurements can take on any number on a continuous scale. The second type of sampling, the interest is only whether the sample meets (or not) some criterion analogous to quality control. In this case, the data collected is the number that met the criterion out of the total number sampled. The metric of this type of sampling is an inferred proportion of the population that meets the requirements.
 
@@ -453,7 +457,7 @@ Understanding this logic is essential for navigating the two paths to regulatory
 
 Before moving on to determining the necessary sample size, it is helpful to clarify statistical errors.
 
-Any statistical test starts with the **null hypothesis** ($H_0$): the assumption that there is no difference between groups (or between a sample and a reference value). The test framework is commonly referred to as a Null Hypothesis Significance Test (NHST).
+Any statistical test starts with the null hypothesis ($H_0$): the assumption that there is no difference between groups (or between a sample and a reference value). The test framework is commonly referred to as a Null Hypothesis Significance Test (NHST).
 
 In NHST, there are two types of errors:
 
@@ -888,7 +892,7 @@ An important thing to note about confidence intervals is that it relies on the t
 
 ## What Confidence Intervals Tell Us
 
-A common misconception in the interpretation of the confidence interval is that a 95% confidence interval indicates that there is a 95% probability that the true value is within those bounds. The actual meaning of the confidence interval is that if somebody took repeated samples of a given size and calculated the confidence interval each time, 95% of the confidence intervals would include the true value. This is demonstrated in @fig-ci_samp where 100 samples each with a size of 10 were taken from a population with a known mean of 42. For each sample, the mean and confidence interval is then calculated. Because this plot is based on simulated data, we know the mean is 42, yet exactly half of the sample means are less than the true mean, half are larger and 95 of the 100 confidence intervals include the true value. In practice, someone is not going to take 100 different samples, they are probably going to take one. So the confidence interval is not a probability statement about the mean or the population but a statement about the precision of our estimate of the mean.
+A common misconception in the interpretation of the confidence interval is that a 95% confidence interval indicates that there is a 95% probability that the true value is within those bounds. The actual meaning of the confidence interval is that if somebody took repeated samples of a given size and calculated the confidence interval each time, 95% of the confidence intervals would include the true value. This is demonstrated in @fig-ci_samp where 100 samples, each with a size of 10 were taken from a population with a known mean of 42. For each sample, the mean and confidence interval is then calculated. Because this plot is based on simulated data, we know the mean is 42, yet exactly half of the sample means are less than the true mean, half are larger and 95 of the 100 confidence intervals include the true value. In practice, someone is not going to take 100 different samples, they are probably going to take one. So the confidence interval is not a probability statement about the mean or the population but a statement about the precision of our estimate of the mean.
 
 This demonstrates why simply using the sample mean is a poor predictor of the population mean. If the sample mean is used by itself to judge the minimum (or maximum) value of the population mean, you are guaranteed 50% of the time the decision will be wrong. The Central Limit Theorem guarantees that near identical results to these (proportion above and below mean and percentage of confidence intervals) will occur regardless of the distribution of the original data, even if it is highly skewed.
 
@@ -1040,13 +1044,17 @@ Confidence level is not a probability about the hypothesis being true but rather
 
 Significant background has been given up to this point on how to judge a sample against a reference value. As stated previously, the regulation does not define what inconsistent is or how different it needs to be before it's "inconsistent". Therefore it is up to the operator to define this ahead of time. A suggested definition would be if a one-tail test rejects that the sample meets the design threshold.
 
-In an expanded sampling program, each verification dig can be thought of as a pass/fail test for whether inconsistent results are found or not. This type of sample where the criterion is a binary choice, is known as a Bernoulli trial and is modeled with the binomial distribution. This distribution will determine a probability of *k* successes in *n* independent trials if the probability of success per trial is *p*. A "success" is whatever is being counted. A "success" is not necessarily a positive outcome. In the expanded sampling context, a "success" would be finding an inconsistent material property in an verification dig. The binomial equation is shown as:
+In an expanded sampling program, each verification dig is the equivalent to a pass/fail test for whether inconsistent results are found or not. This type of sample where the criterion is a binary choice, is known as a Bernoulli trial and is modeled with the binomial distribution. This distribution will determine a probability of *k* successes in *n* independent trials if the probability of success per trial is *p*. A "success" is whatever is being counted. A "success" is not necessarily a positive outcome. In the expanded sampling context, a "success" would be finding an inconsistent material property in an verification dig. The binomial equation is shown as:
 
 $$
 \binom{n}{k} p^{k} (1 - p)^{n - k}
 $$ {#eq-binom}
 
-Where the $\binom{n}{k}$ is what is called the binomial coefficient which calculates the number of ways *k* successes in *n* trials can be distributed. In an expanded sampling program, the desired number of successes (inconsistent results) is zero but the number of samples required to achieve a 95% certainty is not known a priori. It would be straight forward to show the probability of observing zero successes in a number of trials, but this doesn't show how likely it would be to find something if additional samples were taken. For instance, the probability of zero successes in one trial is 95% if the inconsistent material is 5% of the population. But even the casual observer would realize that doesn't prove anything, and the result of that one trial is simply be the result of random chance and it doesn't demonstrate anything about the population. That's equivalent to saying 95% of all cars are white because the first one you saw was white. To show the probability of not finding something in future trials it is necessary to calculate the opposite, the probability of finding one or more successes in *n* trials as shown in @fig-cumprob. Since the total probability of all possible outcomes has to sum to one for a given sample size, the probability of finding one or more is, one minus the probability of finding zero.
+Where the $\binom{n}{k}$ is what is called the binomial coefficient which calculates the number of ways *k* successes in *n* trials can be distributed. In an expanded sampling program, the desired number of successes (inconsistent results) is zero but the number of samples required to achieve a 95% certainty is not known a priori. It would be straight forward to show the probability of observing zero successes in a number of trials, but this doesn't show how likely it would be to find something if additional samples were taken.
+
+For instance, the probability of zero successes in one trial is 95% if the inconsistent material is 5% of the population. But even the casual observer would realize that doesn't prove anything, and the result of that one trial is likely the result of random chance and it doesn't demonstrate much about the population. That's equivalent to saying 95% of all cars are white because the first one you saw was white. To show the probability of not finding something in future trials it is necessary to calculate the opposite, the probability of finding one or more successes in *n* trials as shown in @fig-cumprob. Since the total probability of all possible outcomes has to sum to one for a given sample size, the probability of finding one or more is, one minus the probability of finding zero.
+
+Since the desired outcome is not finding any inconsistent samples ( $k=0$ ), the binomial coefficient $\binom{n}{k}$ and $p^k$ in @eq-binom are both equal to 1. So the binomial distribution reduces to simply $(1-p)^n$ where it can be algebraically solved for n directly or iterated in a spreadsheet until $1-(1-p)^n = 0.95$. Where $p$ is the upper limit of the probability of success you are trying to demonstrate (e.g., 0.05).
 
 ```{r}
 #| label: fig-cumprob
@@ -1126,19 +1134,19 @@ crossed %>%
 
 What @fig-cumprob shows is that the smaller the proportion of the population that is assumed to be inconsistent the greater the number of digs required to reach a 95% confidence level that the inconsistent material doesn't exist elsewhere.
 
-To calculate the necessary sample size, it is necessary to estimate or assume the percent of the population that might be represented by the inconsistent sample. This percentage becomes the probability of success in @eq-binom and the number of successes is set to zero. Then the sample size is iterated until one minus the probability is greater or equal to 95%[^4]. The reason for this is that the proportion of the population affects the probability of finding it in future samples. The larger the proportion it represents, the easier it would be to find in fewer trials and likewise, the smaller the proportion, the more trials it would take to find it even once. What @fig-cumprob illustrates is that if no inconsistent samples are found by the time the probability reaches 95%, then the likelihood of finding additional ones in future digs is 5% or less based on estimated population proportion. For example, if it is hypothesized that the proportion of the population that is inconsistent is 5% then 59 samples would be required to get to a 95% probability of observing one or more of them. If after 59 examinations, none are observed, then it can be concluded that there is a 95% probability that the inconsistent material is 5% or less of the overall population. If an operator wanted to demonstrate that the population of inconsistent material was a smaller percentage, continued sampling would be required. In @fig-cumprob the line for 3% of the population (bottom curve) doesn't reach 95% even after 75 trials. To demonstrate the proportion is 3% or less would take almost 100 samples before reaching 95% probability.
+To calculate the necessary sample size, it is necessary to estimate or assume the percent of the population that might be represented by the inconsistent sample. This percentage becomes the probability of success in @eq-binom and the number of successes is set to zero. Then the sample size is iterated until one minus the probability is greater or equal to 95%[^4]. The reason for this is that the proportion of the population affects the probability of finding it in future samples. The larger the proportion it represents, the easier it would be to find in fewer trials and likewise, the smaller the proportion, the more trials it would take to find it even once. What @fig-cumprob illustrates is that if no inconsistent samples are found by the time the probability reaches 95%, then the likelihood of finding additional ones in future digs is 5% or less based on estimated population proportion.
 
 [^4]: The binomial distribution is built into Excel, using that to do the iteration will make this process easier and repeatable.
 
 ## Rule of 3 Approximation
 
-A close approximation for sample size is the rule of three. The Rule of Three (also called the "rule of 3") is a simple, widely used statistical rule of thumb for estimating an upper bound on the rate of a rare event (or "defect," "failure," or "inconsistent result") when you observe zero occurrences in a sample of size n. If you test n independent items (or trials) and find zero events of interest, then you can be approximately 95% confident that the true rate (proportion) of that event in the population is less than 3/n. Only applies when you observe exactly zero events. If you see even one, you need a different method (e.g., exact binomial or Wilson score interval).
+A close approximation for sample size is the rule of three. The Rule of Three (also called the "rule of 3") is a simple, widely used statistical rule of thumb for estimating an upper bound on the rate of a rare event (or "defect," "failure," or "inconsistent result") when you observe zero occurrences in a sample of size n. If you test n independent items (or trials) and find zero events of interest, then you can be approximately 95% confident that the true rate (proportion) of that event in the population is less than 3/n. Only applies when you observe exactly zero events. If you see even one, you need a different method (e.g., exact binomial confidence interval).
 
 # Alternate Sampling Plan {#sec-alternate-sampling-plan}
 
-Section 192.607(e)(2) requires one excavation per mile for each population rounded up to the nearest whole number up to a maximum of 150 excavations if the population is more than 150 miles. If an operator chooses to use an alternate statistical sampling, 192.607(e)(5) allows the use of another method that has a statistically valid basis designed to achieve a 95% confidence level.
+This section presents an alternate sampling plan consistent with 192.607(e)(5), focused on achieving a 95% confidence level using a statistically valid basis. Note that although( e)(5) allows alternative sampling methods, notification to PHMSA for alternate/expanded plans is required under § 192.18. See the regulations for the specifics of notification.
 
-The method presented here will provide a robust, defensible method to update the beliefs about the material property based on new information provided by sequential NDE testing. With the application of statistics, specifically Bayes' Theorem, it can be shown that a very high level of confidence can be achieved with a relatively small number of tests. This section will discuss how to verify something like yield strength with far fewer tests than is currently required under 192.607(e)(2).
+The method presented here uses sequential NDE results to update confidence in a material property (e.g., yield strength). Using Bayes’ Theorem, high confidence can often be achieved with far fewer excavations than the prescriptive approach.).
 
 ## Bayes' Theorem
 
@@ -1150,7 +1158,7 @@ In traditional Frequentist statistics, the hypothesis is specified first and the
 
 Frequentist methods often require larger samples because they intentionally avoid incorporating prior knowledge into the calculation and instead rely on long-run sampling behavior. Bayes’ Theorem works well when data are sparse but meaningful prior information is available.
 
-Bayesian statistics starts with a **prior distribution** (“the prior”) and updates it as new information is acquired. The prior is the starting point, and it is conditioned (updated) in proportion to the weight of new evidence.
+Bayesian statistics starts with a prior distribution (“the prior”) and updates it as new information is acquired. The prior is the starting point, and it is conditioned (updated) in proportion to the weight of new evidence.
 
 ### Nomenclature {#sec-nomenclature}
 
@@ -1247,7 +1255,7 @@ ggplot(updated, aes(n, p2)) +
        x = "Number of Tests")
 ```
 
-\`What @fig-update shows is that by using Bayes' Theorem and sequential updating, a 95% confidence level can be achieved in less than one-tenth the number of digs required by the prescriptive requirements (up to 150 digs).
+What @fig-update shows is that by using Bayes' Theorem and sequential updating, a 95% confidence level can be achieved in less than one-tenth the number of digs required by the prescriptive requirements (up to 150 digs).
 
 This same process could, in theory, be used for expanded sampling. However, the premise here is that the population is homogeneous and you are confirming whether it meets a criterion (a binary threshold). In contrast, the need for expanded sampling suggests the population may not be homogeneous, so it may be difficult to justify this base assumption.
 
@@ -1416,6 +1424,8 @@ $$
 \Gamma(z) = \int_{0}^{\infty} x^{z-1} e^{-x} dx
 $$ {#eq-gamma}
 
+This is provided mostly for information purposes. The critical t-values and probabilities can be calculated with the built-in functions in almost any spreadsheet or statistical software.
+
 ## Z- distribution
 
 $$
@@ -1424,15 +1434,15 @@ $$
 
 where: $$
 z = \frac{\bar{x} - \mu}{\sigma}
-$$ For two-tailed 95% confidence (α = 0.05): $$
+$$ For two-tailed 95% confidence ($\alpha = 0.05$): $$
 z_{\alpha/2} = z_{0.025} \approx 1.96
 $$
 
 For one-tailed 95% confidence (or 5% significance in one direction): $$
 z_{\alpha} = z_{0.05} \approx 1.645
-$$ \
+$$
 
-# Appendix B: Definitions for Material Verification {#sec-definitions}
+# Appendix B Definitions for Material Verification {#sec-definitions}
 
 This section aims to bridge the gap between abstract statistical theory and the operational decision-making required by 49 CFR 192.607. These definitions are intended to provide a concise reference of the statistical terms used in this paper.
 
@@ -1466,9 +1476,9 @@ The following thresholds are recommended to balance safety with economic sustain
 
 -   **Type II Error (**$\beta$): Typically set at 0.20 (20%), targeting a test power of 80%. This ensures a high probability of correctly identifying truly substandard material while maintaining a realistic sample size.
 
-These thresholds should only be considered guidelines, the acceptable Type I and II error is dependent on the risks involved in a false positive or false negative. See @sec-statistical-tests-and-errors for more detailed discussion.
+These should be considered guidelines, the acceptable Type I and II error is dependent on the application. See @sec-statistical-tests-and-errors for a more detailed discusion.
 
-### Statistically Valid Basis
+## Statistically Valid Basis
 
 A statistically valid basis under 192.607(e)(5) is not defined in the regulations, but is generally understood to be one of the following:
 
