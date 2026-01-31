@@ -19,6 +19,8 @@ execute:
   dpi: 300
 ---
 
+# Executive Summary
+
 This paper provides a practical framework for meeting the material verification requirements of 49 CFR 192.607 without relying solely on prescriptive rules. It explains how to judge whether a sample is inconsistent with a reference population and how to achieve the 95% confidence level required for an expanded sampling program.
 
 Current regulations require operators to verify pipeline material properties when traceable, verifiable, and complete (TVC) records are missing. While the default approach mandates one excavation per mile—up to 150 digs—this can be costly and inefficient.
@@ -116,9 +118,21 @@ sampling_colors <- c(
 
 ```
 
-The regulations published by PHMSA in October of 2019 requires non-destructive examination (NDE) to determine the material properties of pipelines that lack traceable, verifiable and complete (TVC) records. To meet this requirement, operators must conduct verification of pipeline material properties in accordance with 49 CFR 192.607.
+The regulations published by PHMSA in October 2019 require non-destructive examination (NDE) to determine the material properties of pipelines that lack traceable, verifiable, and complete (TVC) records. To meet this requirement, operators must verify pipeline material properties in accordance with 49 CFR 192.607.
 
-In addition, section 192.607(e)(1) states that a population is a combination of material properties and attributes: Nominal Wall Thickness, grade, manufacturing process, pipe manufacturing dates and construction dates. The pipeline segments of the population do not need to be contiguous. If the operator chooses to follow the prescriptive requirements in 192.607(e)(2) it requires one excavation per mile for each population rounded up to the nearest whole number up to a maximum of 150 excavations if the population is more than 150 miles. If an operator chooses to use an alternate statistical sampling, 192.607(e)(5) allows the use of another method that has a statistically valid basis designed to achieve a 95% confidence level.
+Section 192.607(e)(1) states that a population is defined by a combination of material properties and attributes, including:
+
+-   Nominal wall thickness
+-   Grade
+-   Manufacturing process
+-   Pipe manufacturing dates
+-   Construction dates
+
+Pipeline segments within a population do not need to be contiguous.
+
+If an operator follows the prescriptive requirements in 192.607(e)(2), they must perform one excavation per mile for each population (rounded up to the nearest whole number), up to a maximum of 150 excavations when the population exceeds 150 miles.
+
+If an operator uses an alternate statistical sampling approach, 192.607(e)(5) allows another method with a statistically valid basis designed to achieve a 95% confidence level.
 
 The goal of a sampling program is to sample enough to be able to make a defensible decision about the population without sampling too much. Too small of a sample increases the risk of making an erroneous decision about the population, sampling too much wastes time and money, indirectly increasing risk elsewhere by diverting resources unnecessarily.
 
@@ -264,7 +278,7 @@ print(enhanced_comparison)
 
 ```
 
-The key takeaway from @fig-lotsize is that the size of the population doesn't affect the outcome of a sample. There is no need to take a larger sample simply because the population is larger. This demonstrate that the prescriptive one-excavation-per-mile requirement is not rooted in statistical necessity but in administrative simplicity.
+The key takeaway from @fig-lotsize is that the size of the population doesn't affect the outcome of a sample. There is no need to take a larger sample simply because the population is larger. This demonstrates that the prescriptive one-excavation-per-mile requirement is not rooted in statistical necessity but in administrative simplicity.
 
 # The Population vs. Sample Paradigm {#sec-populationsample}
 
@@ -272,11 +286,11 @@ The key takeaway from @fig-lotsize is that the size of the population doesn't af
 
 In statistics, the concepts of population and sample form the foundation of inferential analysis. The population refers to the entire group of individuals, objects, or events that you're interested in studying. For example, if you're researching voter preferences in a country, the population might be all eligible voters—potentially millions of people. The population is typically large, sometimes infinite (like all possible rolls of a die), and often impractical or impossible to measure fully due to time, cost, or logistical constraints.
 
-A sample, on the other hand, is a subset of the population selected for actual measurement or observation. It's chosen to represent the population as accurately as possible, but it's always smaller and more manageable. This relationship is often called the "population-sample paradigm," where the sample acts as a proxy for the population.
+A sample, on the other hand, is a subset of the population selected for actual measurement or observation. It's chosen to represent the population as accurately as possible, but it's always smaller and more manageable. Using the voter example, a sample might be 1,000 randomly selected voters surveyed via phone or online. The goal is to use data from the sample to make inferences about the population—such as estimating the average (mean) preference or the proportion supporting a candidate—without needing to query everyone. This relationship is often called the "population-sample paradigm," where the sample acts as a proxy for the population.
 
 ## Sampling Distributions
 
-The Role of Sample Size: Smaller samples tend to vary more because they're more susceptible to outliers or unrepresentative selections. As sample size increases, variability decreases (per the Law of Large Numbers), and sample statistics get closer to population parameters. However, even large samples aren't identical; they just cluster more tightly around the true value. This is shown in @fig-sampling-variability where repeated samples of various sizes are taken from the same population distribution. The larger the sample size, the narrower the distribution of sample means, indicating less variability.
+The Role of Sample Size: Smaller samples tend to vary more because they're more susceptible to outliers or unrepresentative selections. As sample size increases, variability decreases (per the Law of Large Numbers), and sample statistics get closer to population parameters. However, even large samples aren't identical; they just cluster more tightly around the true value. This is shown in @fig-sampling-variability where different sample sizes are taken from the same population distribution. The larger the sample size, the narrower the distribution of sample means, indicating less variability.
 
 ```{r}
 #| label: fig-sampling-variability
@@ -437,9 +451,18 @@ Understanding this logic is essential for navigating the two paths to regulatory
 
 ## Types of Errors {#sec-statistical-tests-and-errors}
 
-Before moving onto determining the necessary sample size, a discussion of statistical errors is necessary. Any statistical test starts with the assumption that there is no difference between groups or between a sample and a reference value. This assumption of is called the the Null Hypothesis sometimes referred to as just the Null and the test is referred to as a Null Hypothesis Statistical Test (NHST). In these tests, there are two types of errors possible. The first is called a Type I ($\alpha$) and the other is a Type II ($\beta$) error. But the meanings of the two are often misunderstood when setting up a sampling program and interpreting the results. To help in the understanding of the implications of these errors, we will discuss their meaning and how they are used as part of planning a testing program.
+Before moving on to determining the necessary sample size, it is helpful to clarify statistical errors.
 
-An error of the first type, also known as a Type I error, is rejecting the Null when it is really true (false negative). With very few exceptions, the true mean is an unknown value, we can only calculate the likelihood of falsely rejecting the Null. An error of the second type, a Type II error, is failing to reject the Null when it is false (i.e., you didn't reject the Null when you should have, a false positive). The plot in @fig-type1and2 shows graphically Type I and II errors. Where $H_0$ is the distribution based on the null hypothesis with $H_A$ being the alternate hypothesis distribution. The darker shaded region is the error bounds for $\alpha$ and $\beta$ respectively. The boundary between the darker and lighter shaded areas would be the threshold to reject or not reject the Null. If it was rejected at that point, the potential Type I error would be the dark blue area and the Type II is the dark orange area under the curve. These errors are because even though at the decision threshold the Null is very unlikely it is still possibly true since the distribution continues on. So there is still a small probability that the Null or the alternative hypothesis is true.
+Any statistical test starts with the **null hypothesis** ($H_0$): the assumption that there is no difference between groups (or between a sample and a reference value). The test framework is commonly referred to as a Null Hypothesis Significance Test (NHST).
+
+In NHST, there are two types of errors:
+
+-   **Type I error** ($\alpha$): Rejecting $H_0$ when $H_0$ is true (a **false positive**).
+-   **Type II error** ($\beta$): Failing to reject $H_0$ when $H_0$ is false (a **false negative**).
+
+The plot in @fig-type1and2 shows Type I and Type II errors graphically. Here, $H_0$ is the distribution under the null hypothesis and $H_A$ is the distribution under the alternative hypothesis. The darker shaded regions correspond to the error probabilities $\alpha$ and $\beta$. The boundary between the shaded and unshaded areas represents the decision threshold: values beyond that threshold lead to rejection of $H_0$.
+
+These errors exist because, even at a reasonable decision threshold, there is always overlap between the distributions. As a result, there is always some probability of making the wrong decision.
 
 ```{r}
 #| label: fig-type1and2
@@ -767,7 +790,7 @@ As a general rule, it is desirable for a test to have enough samples to achieve 
 
 Note that the uncertainty in the mean is not linear with sample size, it's inversely proportional to, $\sqrt{n}$ therefore, to shrink the uncertainty by half, it requires a sample four times as large. The power versus sample size for various effect sizes and the number of samples required to reach 80% power is shown in @fig-sample_size_plots. The effect size (d) is calculated by taking the difference of the two means and dividing by the pooled standard deviation as shown in @eq-cohens. The pooled standard deviation calculation is shown in @eq-ttest.
 
-@fig-sample_size_plots shows the accumulation of power vs. effect size for difference sample sizes. The larger samples can acheive 80% power for smaller effect sizes. Whereas the smaller sample sizes would need extremely large differences in the two samples before they could reach 80%. For example to detect a "large" effect size (0.8) your sample size would have to be about 25 to achieve 80% power. Notice how the curves take on a sigmoidal S-shape where the slope is steeper through the middle relative to the ends. This shows that small changes in the effect size in this region can prouce large changes in power. Whereas if the power is near 90% the curve assyptotes and changes in effect size have minimal changes in power. In summary, the required sample size is dependent on the size of effect the researcher wants to detect and the acceptable Type I and II error rate. Power analysis does not replace effect sizes or confidence intervals — it's a planning tool within (or complementary to) NHST.
+@fig-sample_size_plots shows the accumulation of power vs. effect size for different sample sizes. The larger samples can acheive 80% power for smaller effect sizes. Whereas the smaller sample sizes would need extremely large differences in the two samples before they could reach 80%. For example to detect a "large" effect size (0.8) your sample size would have to be about 25 to achieve 80% power. Notice how the curves take on a sigmoidal S-shape where the slope is steeper through the middle relative to the ends. This shows that small changes in the effect size in this region can prouce large changes in power. Whereas if the power is near 90% the curve assyptotes and changes in effect size have minimal changes in power. In summary, the required sample size is dependent on the size of effect the researcher wants to detect and the acceptable Type I and II error rate. Power analysis does not replace effect sizes or confidence intervals — it's a planning tool within (or complementary to) NHST.
 
 $$
 d = \frac{\bar{x_1}-\bar{x_2}}{S_p}
@@ -1121,7 +1144,13 @@ The method presented here will provide a robust, defensible method to update the
 
 Intuitively, people know that as they acquire more samples that agree with their hypothesis, the probability of it being true should increase as well and it shouldn't take 150 samples. That intuition is correct and the way to show this increase in belief is through Bayes' Theorem.
 
-The goal of an alternate sampling program is to demonstrate the the probability of an hypothesis being true after observing some data. The optimum tool to accomplish this is Bayes' Theorem. This was originally referred to as the inverse probability problem. In traditional Frequentist statistics, the hypothesis is chosen and a goodness of fit of the data is judged. In Bayesian statistics, the data is given and the likelihood of the hypothesis is judged by how well it fits the data. Frequentist methods require a much larger samples because the user has to effectively pretend that they don't have any prior knowledge of the likelihood of the hypothesis being true and thus relies on the long-running frequency of large samples. Whereas Bayes' Theorem works well when there is sparse data but prior information is available. The key aspect of Bayes' Theorem is the ease with which beliefs can be updated based on new data. The benefit of this methodology is that it allows the incorporation of prior knowledge of the problem to reduce the necessary sample size. Bayesian statistics starts with a prior distribution, referred to as simply "the prior", and is shifted as new information is acquired. The prior can be thought of as the starting point that is conditioned (updated) in proportion to the weight of new evidence.
+The goal of an alternate sampling program is to estimate the probability that a hypothesis is true after observing data. Bayes’ Theorem is a natural tool for this (historically referred to as the “inverse probability” problem).
+
+In traditional Frequentist statistics, the hypothesis is specified first and the likelihood of the observed data is evaluated under that hypothesis. In Bayesian statistics, the data are observed and beliefs about the hypothesis are updated based on how well the hypothesis explains the data.
+
+Frequentist methods often require larger samples because they intentionally avoid incorporating prior knowledge into the calculation and instead rely on long-run sampling behavior. Bayes’ Theorem works well when data are sparse but meaningful prior information is available.
+
+Bayesian statistics starts with a **prior distribution** (“the prior”) and updates it as new information is acquired. The prior is the starting point, and it is conditioned (updated) in proportion to the weight of new evidence.
 
 ### Nomenclature {#sec-nomenclature}
 
@@ -1216,10 +1245,13 @@ ggplot(updated, aes(n, p2)) +
   labs(title = "Probability of YS > 42 ksi",
        y = "Probability",
        x = "Number of Tests")
-
 ```
 
-What @fig-update shows is that by using Bayes' Theorem and sequential updating a 9% confidence level can be achieved in less than one-tenth the number of digs required by the prescriptive requirements of up to 150 digs. This same process could in theory be employed in the case of extended sampling. However, the premise of this process is that the population is homogeneous and you are confirming whether it meets some criterion or not. But given the fact that you are having to do expanded sampling demonstrates that the population is not homogeneous so it would be difficult to argue that the base assumption is valid. However, there is a Bayesian framework that can be employed to get to a 95% level of certainty with fewer samples than what was shown in @sec-expanded-sampling .
+\`What @fig-update shows is that by using Bayes' Theorem and sequential updating, a 95% confidence level can be achieved in less than one-tenth the number of digs required by the prescriptive requirements (up to 150 digs).
+
+This same process could, in theory, be used for expanded sampling. However, the premise here is that the population is homogeneous and you are confirming whether it meets a criterion (a binary threshold). In contrast, the need for expanded sampling suggests the population may not be homogeneous, so it may be difficult to justify this base assumption.
+
+That said, there is a Bayesian framework that can be used to reach a 95% level of certainty with fewer samples than what was shown in @sec-expanded-sampling .
 
 ## Bayesian Updating of a Binomial Process
 
@@ -1303,9 +1335,7 @@ tibble(x = seq(0.001, 0.25, length.out = 301), y = dbeta(x, 0.5, 10.5)) |>
   
 ```
 
-The distribution of credible values is heavily concentrated on the left but there is still a significant tail to the right. To determine the probability that the proportion of inconsistent material is greater than 5% the cumulative distribution function (CDF) is used. The CDF is simply the integral of the probability density function (PDF) from 0 to some value. In this case we want to know the probability that the proportion is greater than 5% which is one minus the CDF at 5%. This is calculated as $1-P(\theta \leq 0.05)$ where P is the CDF. Using statistical software or a spreadsheet this can be calculated easily. In this case it comes out to 31% meaning there is a 31% chance that the proportion of inconsistent material is greater than 5% even after 10 samples with no inconsistent results.
-
-Continuing this process until the the total probability of sucess drops below 5% will give the number of samples required to demonstrate with 95% certainty that the proportion of inconsistent material is less than a given percentage. In this example, you can see as the number of digs increases with no inconsistent samples found, the distribution changes to an increasingly narrower distribution concentrated to the left.
+The distribution of credible values is heavily concentrated on the left but there is still a significant tail to the right. To determine the probability that the proportion of inconsistent material is greater than 5% the cumulative distribution function (CDF) is used. The CDF is simply the integral of the probability density function (PDF) from 0 to some value. In this case we want to know the probability that the proportion is greater than 5% which is one minus the CDF at 5%. This is calculated as $1-P(\theta \leq 0.05)$ where P is the CDF. Using statistical software or a spreadsheet this can be calculated easily. In this case it comes out to 31% meaning there is a 31% chance that the proportion of inconsistent material is greater than 5% even after 10 samples with no inconsistent reContinuing this process until the total probability of success drops below 5% gives the number of samples required to demonstrate (with 95% certainty) that the proportion of inconsistent material is less than a given percentage. In this example, as the number of digs increases with no inconsistent samples found, the distribution becomes increasingly narrow and concentrated to the left. the left.
 
 ```{r}
 #| label: fig-betacum
@@ -1400,17 +1430,17 @@ $$
 
 For one-tailed 95% confidence (or 5% significance in one direction): $$
 z_{\alpha} = z_{0.05} \approx 1.645
-$$
+$$ \
 
-## Definitions for Material Verification {#sec-definitions}
+# Appendix B: Definitions for Material Verification {#sec-definitions}
 
 This section aims to bridge the gap between abstract statistical theory and the operational decision-making required by 49 CFR 192.607. These definitions are intended to provide a concise reference of the statistical terms used in this paper.
 
-### Null Hypothesis
+## Null Hypothesis
 
 The null hypothesis is a statement of no effect or no difference. In the context of material verification, the null hypothesis is that the material meets the specified requirements. The statistical test is designed to determine if there is sufficient evidence to reject the null hypothesis. This process is known as a Null Hypothesis Significance Test (NHST).
 
-### Inconsistent Result
+## Inconsistent Result
 
 A material test result is defined as inconsistent if it meets one of the following criteria:
 
@@ -1418,7 +1448,7 @@ A material test result is defined as inconsistent if it meets one of the followi
 
 -   **Practical Significance**: Even if statistically different, a result is only "inconsistent" if the deviation is of a practical concern to the safe operation or maintenance of the pipeline.
 
-### Population (Lot)
+## Population (Lot)
 
 In alignment with 192.607(e)(1), a population is a grouping of pipeline segments—not necessarily contiguous—defined by a unique combination of:
 
@@ -1428,13 +1458,15 @@ In alignment with 192.607(e)(1), a population is a grouping of pipeline segments
 
 -   **Statistical Independence**: For the purposes of sampling, the lot size should be at least 10 times greater than the sample size to ensure the sample remains representative without requiring lot-dependent size adjustments.
 
-### Acceptance Thresholds (Error Rates)
+## Acceptance Thresholds (Error Rates)
 
 The following thresholds are recommended to balance safety with economic sustainability:
 
 -   **Type I Error (**$\alpha$): Typically set at 0.05 (5%). This limits the probability of "false positives"—incorrectly rejecting valid material records and triggering unnecessary excavations.
 
 -   **Type II Error (**$\beta$): Typically set at 0.20 (20%), targeting a test power of 80%. This ensures a high probability of correctly identifying truly substandard material while maintaining a realistic sample size.
+
+These thresholds should only be considered guidelines, the acceptable Type I and II error is dependent on the risks involved in a false positive or false negative. See @sec-statistical-tests-and-errors for more detailed discussion.
 
 ### Statistically Valid Basis
 
